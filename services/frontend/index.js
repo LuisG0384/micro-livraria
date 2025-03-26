@@ -1,3 +1,5 @@
+const search = document.getElementById("book");
+
 function newBook(book) {
     const div = document.createElement('div');
     div.className = 'column is-4';
@@ -50,6 +52,52 @@ function calculateShipping(id, cep) {
             swal('Erro', 'Erro ao consultar frete', 'error');
             console.error(err);
         });
+}
+
+function carrega(event){
+    let linha = "http://localhost:3000/products"
+    if(event.keyCode === 13)
+        if(parseInt(search.value) >= 1 && parseInt(search.value) <= 3)
+        {
+            linha = "http://localhost:3000/product/" + search.value;
+        }
+        
+            const books = document.querySelector('.books');
+            books.innerHTML = "";
+            
+            fetch(linha)
+                .then((data) => {
+                    if (data.ok) {
+                        return data.json();
+                    }
+                    throw data.statusText;
+                })
+                .then((data) => {
+                    if (data) {
+                        data.forEach((book) => {
+                            books.appendChild(newBook(book));
+                        });
+        
+                        document.querySelectorAll('.button-shipping').forEach((btn) => {
+                            btn.addEventListener('click', (e) => {
+                                const id = e.target.getAttribute('data-id');
+                                const cep = document.querySelector(`.book[data-id="${id}"] input`).value;
+                                calculateShipping(id, cep);
+                            });
+                        });
+        
+                        document.querySelectorAll('.button-buy').forEach((btn) => {
+                            btn.addEventListener('click', (e) => {
+                                swal('Compra de livro', 'Sua compra foi realizada com sucesso', 'success');
+                            });
+                        });
+                    }
+                })
+                .catch((err) => {
+                    swal('Erro', 'Erro ao listar os produtos', 'error');
+                    console.error(err);
+                });
+        
 }
 
 document.addEventListener('DOMContentLoaded', function () {

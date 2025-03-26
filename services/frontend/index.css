@@ -72,3 +72,12 @@ body {
         min-height: 250px;
     }
 }
+
+.search-bar{
+    padding-left: 43vw;
+    background-color: #209cee;
+
+    input{
+        width: 10vw;
+    }
+}

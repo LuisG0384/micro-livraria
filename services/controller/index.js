@@ -54,7 +54,7 @@ app.get('/product/:id', (req, res, next) => {
             // Caso contrário, retorna resultado do
             // microsserviço (um arquivo JSON) com os dados
             // do produto pesquisado
-            res.json(product);
+            res.json([product]);
         }
     });
 });
